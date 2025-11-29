@@ -292,3 +292,36 @@
 	}
 
 })(jQuery);
+
+// Test Telegram Connection
+(function($) {
+	$(document).on('click', '#jwsai-test-telegram', function(e) {
+		e.preventDefault();
+		var $btn = $(this);
+		var $result = $('#jwsai-test-telegram-result');
+		$btn.prop('disabled', true);
+		$result.text('Testing...');
+		$.ajax({
+			url: jwsaiL10n.ajaxurl,
+			type: 'POST',
+			dataType: 'json',
+			data: {
+				action: 'jwsai_test_telegram',
+				nonce: jwsaiL10n.nonce
+			},
+			success: function(response) {
+				if (response.success) {
+					$result.html('<span style="color:green;">' + response.data + '</span>');
+				} else {
+					$result.html('<span style="color:red;">' + response.data + '</span>');
+				}
+			},
+			error: function() {
+				$result.html('<span style="color:red;">AJAX request failed</span>');
+			},
+			complete: function() {
+				$btn.prop('disabled', false);
+			}
+		});
+	});
+})(jQuery);

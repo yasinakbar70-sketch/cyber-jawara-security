@@ -136,6 +136,10 @@ $lockout_duration = get_option( 'jwsai_lockout_duration', 30 );
 						<p class="description">
 							<?php esc_html_e( 'Your Telegram Chat ID (get from @userinfobot)', 'jawara-web-shield-ai' ); ?>
 						</p>
+                        <button type="button" class="button" id="jwsai-test-telegram">
+                            <?php esc_html_e( 'Test Telegram Connection', 'jawara-web-shield-ai' ); ?>
+                        </button>
+                        <span id="jwsai-test-telegram-result" style="margin-left:10px;"></span>
 					</td>
 				</tr>
 			</table>

@@ -46,6 +46,9 @@ class Jawara_Web_Shield_AI {
 		add_action( 'wp_ajax_jwsai_add_whitelist_ip', array( $this, 'ajax_add_whitelist_ip' ) );
 		add_action( 'wp_ajax_jwsai_remove_whitelist_ip', array( $this, 'ajax_remove_whitelist_ip' ) );
 
+        // AJAX test telegram
+        add_action( 'wp_ajax_jwsai_test_telegram', array( $this, 'ajax_test_telegram' ) );
+
 		// Proteksi login
 		add_action( 'wp_login_failed', array( $this, 'handle_login_failure' ) );
 		add_filter( 'authenticate', array( $this, 'check_login_lockout' ), 30, 3 );
@@ -68,7 +71,39 @@ class Jawara_Web_Shield_AI {
 		require_once JWSAI_PLUGIN_DIR . 'includes/class-file-scanner.php';
 		require_once JWSAI_PLUGIN_DIR . 'includes/class-malware-detector.php';
 		require_once JWSAI_PLUGIN_DIR . 'includes/class-login-protector.php';
+
+        // Admin notice
+        add_action( 'admin_notices', array( $this, 'admin_activation_notice' ) );
 	}
+
+    /**
+     * Notifikasi admin saat plugin aktif
+     */
+    public function admin_activation_notice() {
+        if ( get_transient( 'jwsai_activation_notice' ) ) {
+            echo '<div class="notice notice-success is-dismissible"><p><strong>Jawara Web Shield AI</strong> aktif dan siap melindungi website Anda!</p></div>';
+            delete_transient( 'jwsai_activation_notice' );
+        }
+    }
+
+    /**
+     * AJAX: Tes koneksi Telegram
+     */
+    public function ajax_test_telegram() {
+        check_ajax_referer( 'jwsai_nonce' );
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( __( 'Unauthorized', 'jawara-web-shield-ai' ) );
+        }
+        $result = Jawara_Telegram_Notifier::send_security_alert(
+            'Tes Koneksi Telegram',
+            'Notifikasi ini dikirim otomatis untuk menguji koneksi bot dari Jawara Web Shield AI.',
+            'low'
+        );
+        if ( is_wp_error( $result ) ) {
+            wp_send_json_error( $result->get_error_message() );
+        }
+        wp_send_json_success( __( 'Pesan berhasil dikirim ke Telegram!', 'jawara-web-shield-ai' ) );
+    }
 
 	/**
 	 * Aktifkan plugin
@@ -113,6 +148,9 @@ class Jawara_Web_Shield_AI {
 		if ( ! wp_next_scheduled( 'jwsai_daily_signature_scan' ) ) {
 			wp_schedule_event( time() + 3600, 'daily', 'jwsai_daily_signature_scan' );
 		}
+
+        // Set admin notice
+        set_transient( 'jwsai_activation_notice', 1, 60 );
 	}
 
 	/**
