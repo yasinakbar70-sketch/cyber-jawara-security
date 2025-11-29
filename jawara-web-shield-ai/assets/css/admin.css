@@ -1,0 +1,269 @@
+/* Jawara Web Shield AI - Admin Styles */
+
+.wrap {
+	max-width: 1200px;
+	margin: 20px auto;
+}
+
+.nav-tab-wrapper {
+	background-color: #f1f1f1;
+	border-bottom: 1px solid #ccc;
+	margin: 20px 0 0;
+	padding: 0;
+}
+
+.nav-tab {
+	background-color: #fafafa;
+	border: 1px solid #ccc;
+	border-bottom: none;
+	color: #555;
+	margin-right: 0;
+	padding: 10px 15px;
+	text-decoration: none;
+	display: inline-block;
+}
+
+.nav-tab:hover {
+	background-color: #fff;
+	color: #0073aa;
+}
+
+.nav-tab-active {
+	background-color: #fff;
+	color: #0073aa;
+	border-bottom-color: #fff;
+}
+
+.tab-content {
+	background-color: #fff;
+	padding: 20px;
+	border: 1px solid #ccc;
+	border-top: none;
+}
+
+.postbox {
+	background: #fff;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	margin-bottom: 20px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.postbox h2 {
+	background: #f5f5f5;
+	border-bottom: 1px solid #e0e0e0;
+	margin: 0;
+	padding: 10px 15px;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.postbox .inside {
+	padding: 15px;
+}
+
+.postbox p {
+	margin: 0 0 15px 0;
+}
+
+.jwsai-input-group {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	margin: 15px 0;
+}
+
+.jwsai-input-group input {
+	flex: 1;
+	margin: 0;
+}
+
+.jwsai-input-group button {
+	margin: 0;
+}
+
+#jwsai-scan-progress {
+	padding: 15px;
+	background: #f9f9f9;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
+
+#jwsai-progress-bar {
+	background: linear-gradient(90deg, #2271b1, #135e96);
+}
+
+.badge {
+	display: inline-block;
+	padding: 3px 8px;
+	border-radius: 3px;
+	font-size: 11px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+table.widefat {
+	border-collapse: collapse;
+	margin: 15px 0;
+}
+
+table.widefat th,
+table.widefat td {
+	padding: 10px;
+	border-bottom: 1px solid #ddd;
+	text-align: left;
+}
+
+table.widefat thead {
+	background: #f5f5f5;
+	font-weight: bold;
+}
+
+table.widefat tbody tr:hover {
+	background: #f9f9f9;
+}
+
+table.widefat.striped tbody tr:nth-child(odd) {
+	background: #fafafa;
+}
+
+.button {
+	padding: 6px 12px;
+	font-size: 13px;
+	border-radius: 3px;
+	border: 1px solid #ccc;
+	background: #fafafa;
+	color: #555;
+	cursor: pointer;
+	text-decoration: none;
+	display: inline-block;
+}
+
+.button:hover {
+	background: #f5f5f5;
+	color: #333;
+}
+
+.button-primary {
+	background: #0073aa;
+	color: white;
+	border-color: #005a87;
+}
+
+.button-primary:hover {
+	background: #005a87;
+	color: white;
+}
+
+.button-small {
+	padding: 4px 8px;
+	font-size: 11px;
+}
+
+.description {
+	display: block;
+	color: #666;
+	font-size: 13px;
+	margin-top: 5px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+textarea {
+	padding: 8px;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	font-size: 14px;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+	outline: none;
+	border-color: #0073aa;
+	box-shadow: 0 0 3px rgba(0, 115, 170, 0.3);
+}
+
+.regular-text {
+	width: 100%;
+	max-width: 500px;
+}
+
+.small-text {
+	width: 80px;
+}
+
+code {
+	background: #f5f5f5;
+	padding: 2px 5px;
+	border-radius: 3px;
+	font-family: 'Courier New', monospace;
+	font-size: 13px;
+}
+
+pre {
+	background: #f5f5f5;
+	padding: 12px;
+	border-radius: 3px;
+	overflow: auto;
+	font-size: 12px;
+}
+
+details {
+	margin: 5px 0;
+}
+
+summary {
+	cursor: pointer;
+	color: #0073aa;
+	font-weight: bold;
+}
+
+summary:hover {
+	text-decoration: underline;
+}
+
+hr {
+	border: none;
+	border-top: 1px solid #e0e0e0;
+	margin: 20px 0;
+}
+
+.dashicons {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-right: 5px;
+}
+
+/* Animation */
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+.jwsai-loading {
+	animation: spin 1s linear infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.jwsai-input-group {
+		flex-direction: column;
+	}
+
+	.jwsai-input-group button {
+		width: 100%;
+	}
+
+	table.widefat {
+		font-size: 12px;
+	}
+
+	table.widefat th,
+	table.widefat td {
+		padding: 5px;
+	}
+}
