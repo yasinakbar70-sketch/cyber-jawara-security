@@ -242,9 +242,7 @@ class Jawara_Web_Shield_AI {
 	 * Enqueue admin assets
 	 */
 	public function enqueue_admin_assets( $hook ) {
-		if ( strpos( $hook, 'jawara-shield-ai' ) === false ) {
-			return;
-		}
+		// Selalu enqueue asset di semua halaman admin plugin
 
 		wp_enqueue_style(
 			'jwsai-admin-css',
