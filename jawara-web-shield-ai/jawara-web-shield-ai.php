@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Jawara Web Shield AI
- * Plugin URI: https://github.com/yourusername/jawara-web-shield-ai
+ * Plugin URI: https://github.com/instanwaofficial-glitch/Plugin.git
  * Description: Plugin keamanan WordPress tingkat lanjut dengan AI (Gemini API) untuk deteksi malware, proteksi login, firewall IP, dan notifikasi Telegram
  * Version: 1.0.0
  * Author: Moh Yasin Akbar
