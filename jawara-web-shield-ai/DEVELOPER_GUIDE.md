@@ -1,5 +1,5 @@
 /**
- * JAWARA WEB SHIELD AI - DEVELOPER GUIDE
+ * Cyber Jawara Security - DEVELOPER GUIDE
  * 
  * Panduan lengkap untuk developers yang ingin extend atau customize plugin
  */

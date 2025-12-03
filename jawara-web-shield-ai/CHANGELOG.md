@@ -1,8 +1,20 @@
 # Changelog
 
-Semua perubahan notable pada plugin Jawara Web Shield AI akan didokumentasikan di file ini.
+Semua perubahan notable pada plugin Cyber Jawara Security akan didokumentasikan di file ini.
 
 Format yang digunakan mengikuti [Keep a Changelog](https://keepachangelog.com/).
+
+## [2.1.0] - 2024-12-03
+
+### Changed
+- **Rebranding**: Plugin name changed from "Jawara Web Shield AI" to "Cyber Jawara Security"
+- Updated all user-facing names in admin interface
+- Updated documentation (README.md, DEVELOPER_GUIDE.md)
+- Technical identifiers (text domain, file names, class names) remain unchanged for compatibility
+
+### Added
+- **Permanent IP Blocking**: IPs are now automatically added to permanent blacklist after 5 failed login attempts
+- Enhanced Telegram notifications to indicate permanent blocks
 
 ## [2.0.0] - 2024-12-01
 

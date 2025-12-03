@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name: Jawara Web Shield AI
+ * Plugin Name: Cyber Jawara Security
  * Plugin URI: https://github.com/instanwaofficial-glitch/Plugin.git
  * Description: Plugin keamanan WordPress tingkat lanjut dengan AI (Gemini API) untuk deteksi malware, proteksi login, firewall IP, dan notifikasi Telegram
  * Version: 2.0.0
  * Author: Moh Yasin Akbar
  * Author URI: git clone https://github.com/instanwaofficial-glitch
- * Copyright: 2025 Jawara Web Shield AI
+ * Copyright: 2025 Cyber Jawara Security
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: jawara-web-shield-ai
@@ -22,7 +22,7 @@
  * ==================================================
  * 1. Download/Extract folder plugin ke wp-content/plugins/
  * 2. Aktifkan plugin dari Dashboard WordPress
- * 3. Pergi ke menu "Jawara Web Shield AI" di admin dashboard
+ * 3. Pergi ke menu "Cyber Jawara Security" di admin dashboard
  * 4. Isi API Key Gemini dari https://makersuite.google.com/app/apikey
  * 5. Isi Token Telegram & Chat ID (opsional)
  * 6. Lakukan manual scan untuk baseline

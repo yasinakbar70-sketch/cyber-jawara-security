@@ -106,7 +106,7 @@ class Jawara_Telegram_Notifier {
 		}
 
 		$message = sprintf(
-			"⚠️ *Brute Force Attack Detected*\n\nUsername: `%s`\nIP: `%s`\nAction: IP has been locked out",
+			"⚠️ *Brute Force Attack Detected*\n\nUsername: `%s`\nIP: `%s`\nAction: IP has been permanently blocked",
 			$username,
 			$ip
 		);

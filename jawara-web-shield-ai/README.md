@@ -1,8 +1,8 @@
-# Jawara Web Shield AI
+# Cyber Jawara Security
 
 **Advanced WordPress Security Plugin with AI-Powered Malware Detection**
 
-Jawara Web Shield AI adalah plugin keamanan WordPress tingkat lanjut yang mengintegrasikan Google Gemini API untuk deteksi malware otomatis, proteksi login, firewall IP, dan monitoring keamanan real-time.
+Cyber Jawara Security adalah plugin keamanan WordPress tingkat lanjut yang mengintegrasikan Google Gemini API untuk deteksi malware otomatis, proteksi login, firewall IP, dan monitoring keamanan real-time.
 
 ## 🚀 Fitur Utama
 
@@ -79,14 +79,14 @@ unzip jawara-web-shield-ai.zip
 ### Langkah 2: Aktifkan Plugin
 1. Login ke WordPress Admin Dashboard
 2. Pergi ke **Plugins** → **Installed Plugins**
-3. Cari "Jawara Web Shield AI"
+3. Cari "Cyber Jawara Security"
 4. Klik **Activate**
 
 ### Langkah 3: Konfigurasi API Key Gemini
 1. Pergi ke https://makersuite.google.com/app/apikey
 2. Buat API key baru (gunakan free tier)
 3. Copy API key
-4. Di WordPress, pergi ke **Jawara Shield AI** → **Settings**
+4. Di WordPress, pergi ke **Cyber Jawara** → **Settings**
 5. Paste API key di field "Gemini API Key"
 6. Klik **Save Changes**
 
@@ -101,7 +101,7 @@ unzip jawara-web-shield-ai.zip
 5. Klik **Save Changes**
 
 ### Langkah 5: Jalankan Initial Scan
-1. Pergi ke **Jawara Shield AI** → **Scan AI**
+1. Pergi ke **Cyber Jawara** → **Scan AI**
 2. Klik **Start Manual Scan**
 3. Tunggu proses selesai (bisa beberapa menit)
 4. Baseline akan tersimpan otomatis

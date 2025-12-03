@@ -1,6 +1,6 @@
 <?php
 /**
- * Halaman admin utama Jawara Web Shield AI
+ * Halaman admin utama Cyber Jawara Security
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

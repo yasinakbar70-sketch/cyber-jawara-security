@@ -231,8 +231,8 @@ class Jawara_Web_Shield_AI {
 	 */
 	public function add_admin_menu() {
 		add_menu_page(
-			__( 'Jawara Web Shield AI', 'jawara-web-shield-ai' ),
-			__( 'Jawara Shield AI', 'jawara-web-shield-ai' ),
+			__( 'Cyber Jawara Security', 'jawara-web-shield-ai' ),
+			__( 'Cyber Jawara', 'jawara-web-shield-ai' ),
 			'manage_options',
 			'jawara-shield-ai',
 			array( $this, 'render_admin_page' ),

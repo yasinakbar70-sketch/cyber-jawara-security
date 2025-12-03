@@ -96,6 +96,23 @@ class Jawara_Login_Protector {
 		// Set lockout transient
 		set_transient( $lockout_key, time() + ( $duration * 60 ), $duration * 60 );
 
+		// Add IP to permanent blacklist
+		$blacklist = get_option( 'jwsai_blacklist_ips', array() );
+		if ( ! in_array( $ip_address, $blacklist, true ) ) {
+			$blacklist[] = $ip_address;
+			update_option( 'jwsai_blacklist_ips', $blacklist );
+
+			// Log permanent block
+			Jawara_Security_Logger::log(
+				'firewall',
+				'critical',
+				"IP permanently blocked due to brute force attack. Username: $username",
+				null,
+				$ip_address,
+				null
+			);
+		}
+
 		// Log lockout
 		Jawara_Security_Logger::log(
 			'login_attempt',
@@ -106,7 +123,7 @@ class Jawara_Login_Protector {
 			null
 		);
 
-		// Kirim notifikasi Telegram
+		// Kirim notifikasi Telegram dengan info permanent block
 		Jawara_Telegram_Notifier::notify_brute_force_attack( $username, $ip_address );
 	}
 
