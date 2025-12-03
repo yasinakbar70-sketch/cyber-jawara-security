@@ -46,6 +46,15 @@ class Jawara_Web_Shield_AI {
 		add_action( 'wp_ajax_jwsai_add_whitelist_ip', array( $this, 'ajax_add_whitelist_ip' ) );
 		add_action( 'wp_ajax_jwsai_remove_whitelist_ip', array( $this, 'ajax_remove_whitelist_ip' ) );
 
+		// AJAX 2FA handlers (delegated to class)
+		// Note: Handlers are already added in Jawara_Two_Factor_Auth::init() which is called on file load
+		// But we need to ensure the class is loaded before init hook if possible, or rely on 'init' hook in class.
+		// Since we require the file in constructor, the class init will run.
+		// However, Jawara_Two_Factor_Auth::init() uses add_action, so it's fine.
+
+		// AJAX Live Traffic (delegated to class)
+		// Jawara_Traffic_Logger::init() handles this.
+
         // AJAX test telegram
         add_action( 'wp_ajax_jwsai_test_telegram', array( $this, 'ajax_test_telegram' ) );
 
@@ -72,6 +81,19 @@ class Jawara_Web_Shield_AI {
 		require_once JWSAI_PLUGIN_DIR . 'includes/class-malware-detector.php';
 		require_once JWSAI_PLUGIN_DIR . 'includes/class-login-protector.php';
 
+		// Load advanced security classes
+		require_once JWSAI_PLUGIN_DIR . 'includes/class-advanced-malware-scanner.php';
+		require_once JWSAI_PLUGIN_DIR . 'includes/class-geo-ip-service.php';
+		require_once JWSAI_PLUGIN_DIR . 'includes/class-advanced-firewall.php';
+		require_once JWSAI_PLUGIN_DIR . 'includes/class-threat-intelligence.php';
+		require_once JWSAI_PLUGIN_DIR . 'includes/class-two-factor-auth.php';
+		require_once JWSAI_PLUGIN_DIR . 'includes/class-advanced-login-protector.php';
+		require_once JWSAI_PLUGIN_DIR . 'includes/class-security-dashboard.php';
+		require_once JWSAI_PLUGIN_DIR . 'includes/class-traffic-logger.php';
+		require_once JWSAI_PLUGIN_DIR . 'includes/class-database-scanner.php';
+		require_once JWSAI_PLUGIN_DIR . 'includes/class-vulnerability-scanner.php';
+		require_once JWSAI_PLUGIN_DIR . 'includes/class-security-hardening.php';
+
         // Admin notice
         add_action( 'admin_notices', array( $this, 'admin_activation_notice' ) );
 	}
@@ -94,11 +116,12 @@ class Jawara_Web_Shield_AI {
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( __( 'Unauthorized', 'jawara-web-shield-ai' ) );
         }
-        $result = Jawara_Telegram_Notifier::send_security_alert(
-            'Tes Koneksi Telegram',
-            'Notifikasi ini dikirim otomatis untuk menguji koneksi bot dari Jawara Web Shield AI.',
-            'low'
-        );
+
+        $token   = isset( $_POST['token'] ) ? sanitize_text_field( wp_unslash( $_POST['token'] ) ) : '';
+        $chat_id = isset( $_POST['chat_id'] ) ? sanitize_text_field( wp_unslash( $_POST['chat_id'] ) ) : '';
+
+        $result = Jawara_Telegram_Notifier::test_connection( $token, $chat_id );
+
         if ( is_wp_error( $result ) ) {
             wp_send_json_error( $result->get_error_message() );
         }
@@ -139,6 +162,40 @@ class Jawara_Web_Shield_AI {
 		add_option( 'jwsai_telegram_enabled', 0 );
 		add_option( 'jwsai_blacklist_ips', array() );
 		add_option( 'jwsai_whitelist_ips', array() );
+
+		// Advanced security options
+		add_option( 'jwsai_geo_blocking_enabled', 0 );
+		add_option( 'jwsai_blocked_countries', array() );
+		add_option( 'jwsai_rate_limiting_enabled', 1 );
+		add_option( 'jwsai_rate_limit_requests', 60 );
+		add_option( 'jwsai_block_bad_bots', 1 );
+		add_option( 'jwsai_sql_injection_protection', 1 );
+		add_option( 'jwsai_xss_protection', 1 );
+		add_option( 'jwsai_auto_blacklist_threats', 1 );
+		add_option( 'jwsai_abuseipdb_api_key', '' );
+
+		// Authentication & Access options
+		add_option( 'jwsai_2fa_enabled', 0 );
+		add_option( 'jwsai_force_2fa_admins', 0 );
+		add_option( 'jwsai_recaptcha_enabled', 0 );
+		add_option( 'jwsai_recaptcha_site_key', '' );
+		add_option( 'jwsai_recaptcha_secret_key', '' );
+		add_option( 'jwsai_notify_new_device', 1 );
+
+		// Monitoring & Visibility options
+		add_option( 'jwsai_traffic_logging_enabled', 1 );
+		add_option( 'jwsai_log_admin_traffic', 0 );
+
+		// Security Hardening options
+		add_option( 'jwsai_disable_xmlrpc', 0 );
+		add_option( 'jwsai_hide_wp_version', 1 );
+		add_option( 'jwsai_disable_file_editing', 0 );
+		add_option( 'jwsai_enable_security_headers', 1 );
+		add_option( 'jwsai_block_user_enumeration', 1 );
+		add_option( 'jwsai_disable_directory_browsing', 0 );
+
+		// Create threat intelligence table
+		Jawara_Threat_Intelligence::create_table();
 
 		// Schedule cron jobs
 		if ( ! wp_next_scheduled( 'jwsai_hourly_file_check' ) ) {
@@ -191,15 +248,21 @@ class Jawara_Web_Shield_AI {
 	 */
 	public function register_settings() {
 		register_setting( 'jwsai_settings', 'jwsai_gemini_api_key', array(
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => function( $value ) {
+				return sanitize_text_field( trim( $value ) );
+			},
 		) );
 
 		register_setting( 'jwsai_settings', 'jwsai_telegram_token', array(
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => function( $value ) {
+				return sanitize_text_field( trim( $value ) );
+			},
 		) );
 
 		register_setting( 'jwsai_settings', 'jwsai_telegram_chat_id', array(
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => function( $value ) {
+				return sanitize_text_field( trim( $value ) );
+			},
 		) );
 
 		register_setting( 'jwsai_settings', 'jwsai_login_attempts_limit', array(
@@ -314,7 +377,7 @@ class Jawara_Web_Shield_AI {
 			$blacklist[] = $ip;
 			update_option( 'jwsai_blacklist_ips', $blacklist );
 
-			Jawara_Security_Logger::log( 'firewall', 'info', "IP $ip added to blacklist" );
+			Jawara_Security_Logger::log( 'firewall', 'medium', "IP $ip added to blacklist" );
 			wp_send_json_success( __( 'IP added to blacklist', 'jawara-web-shield-ai' ) );
 		} else {
 			wp_send_json_error( __( 'IP already in blacklist', 'jawara-web-shield-ai' ) );
@@ -339,7 +402,7 @@ class Jawara_Web_Shield_AI {
 			unset( $blacklist[ $key ] );
 			update_option( 'jwsai_blacklist_ips', array_values( $blacklist ) );
 
-			Jawara_Security_Logger::log( 'firewall', 'info', "IP $ip removed from blacklist" );
+			Jawara_Security_Logger::log( 'firewall', 'medium', "IP $ip removed from blacklist" );
 			wp_send_json_success( __( 'IP removed from blacklist', 'jawara-web-shield-ai' ) );
 		} else {
 			wp_send_json_error( __( 'IP not found in blacklist', 'jawara-web-shield-ai' ) );
@@ -368,7 +431,7 @@ class Jawara_Web_Shield_AI {
 			$whitelist[] = $ip;
 			update_option( 'jwsai_whitelist_ips', $whitelist );
 
-			Jawara_Security_Logger::log( 'firewall', 'info', "IP $ip added to whitelist" );
+			Jawara_Security_Logger::log( 'firewall', 'medium', "IP $ip added to whitelist" );
 			wp_send_json_success( __( 'IP added to whitelist', 'jawara-web-shield-ai' ) );
 		} else {
 			wp_send_json_error( __( 'IP already in whitelist', 'jawara-web-shield-ai' ) );
@@ -393,7 +456,7 @@ class Jawara_Web_Shield_AI {
 			unset( $whitelist[ $key ] );
 			update_option( 'jwsai_whitelist_ips', array_values( $whitelist ) );
 
-			Jawara_Security_Logger::log( 'firewall', 'info', "IP $ip removed from whitelist" );
+			Jawara_Security_Logger::log( 'firewall', 'medium', "IP $ip removed from whitelist" );
 			wp_send_json_success( __( 'IP removed from whitelist', 'jawara-web-shield-ai' ) );
 		} else {
 			wp_send_json_error( __( 'IP not found in whitelist', 'jawara-web-shield-ai' ) );

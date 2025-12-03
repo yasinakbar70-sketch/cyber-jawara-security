@@ -12,7 +12,7 @@ $telegram_token = get_option( 'jwsai_telegram_token' );
 $telegram_chat_id = get_option( 'jwsai_telegram_chat_id' );
 $telegram_enabled = get_option( 'jwsai_telegram_enabled' );
 $login_attempts_limit = get_option( 'jwsai_login_attempts_limit', 5 );
-$lockout_duration = get_option( 'jwsai_lockout_duration', 30 );
+$lockout_duration = get_option( 'jwsai_lockout_duration', 10 );
 ?>
 
 <div class="postbox">
@@ -119,6 +119,12 @@ $lockout_duration = get_option( 'jwsai_lockout_duration', 30 );
 						<p class="description">
 							<?php esc_html_e( 'Get from @BotFather on Telegram', 'jawara-web-shield-ai' ); ?>
 						</p>
+						<?php if ( ! empty( $telegram_token ) ) : ?>
+							<p class="description" style="color: #666; font-size: 11px;">
+								<strong>Debug Info:</strong> <?php echo esc_html( substr( $telegram_token, 0, 10 ) . '...' . substr( $telegram_token, -8 ) ); ?>
+								(Length: <?php echo strlen( $telegram_token ); ?> characters)
+							</p>
+						<?php endif; ?>
 					</td>
 				</tr>
 				<tr>
@@ -136,15 +142,15 @@ $lockout_duration = get_option( 'jwsai_lockout_duration', 30 );
 						<p class="description">
 							<?php esc_html_e( 'Your Telegram Chat ID (get from @userinfobot)', 'jawara-web-shield-ai' ); ?>
 						</p>
-                        <button type="button" class="button" id="jwsai-test-telegram">
-                            <?php esc_html_e( 'Test Telegram Connection', 'jawara-web-shield-ai' ); ?>
-                        </button>
-                        <span id="jwsai-test-telegram-result" style="margin-left:10px;"></span>
+						<button type="button" class="button" id="jwsai-test-telegram">
+							<?php esc_html_e( 'Test Telegram Connection', 'jawara-web-shield-ai' ); ?>
+						</button>
+						<span id="jwsai-test-telegram-result" style="margin-left:10px;"></span>
 					</td>
 				</tr>
 			</table>
 
-			<?php submit_button(); ?>
+			<?php submit_button( __( 'Simpan Perubahan', 'jawara-web-shield-ai' ) ); ?>
 		</form>
 	</div>
 </div>

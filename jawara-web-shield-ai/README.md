@@ -304,6 +304,6 @@ Dikembangkan dengan ❤️ menggunakan:
 
 ---
 
-**Last Updated**: November 2025  
-**Version**: 1.0.0  
+**Last Updated**: November 2024  
+**Version**: 1.0.2  
 **Tested on**: WordPress 6.4+, PHP 7.4+

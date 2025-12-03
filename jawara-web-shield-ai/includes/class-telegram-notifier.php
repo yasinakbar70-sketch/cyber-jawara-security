@@ -178,7 +178,43 @@ class Jawara_Telegram_Notifier {
 		}
 
 		$status_code = wp_remote_retrieve_response_code( $response );
+		$body = wp_remote_retrieve_body( $response );
+		$data = json_decode( $body, true );
 
-		return 200 === $status_code;
+		// Check for Telegram API errors
+		if ( 200 !== $status_code || ( isset( $data['ok'] ) && ! $data['ok'] ) ) {
+			$error_message = 'Unknown error';
+			
+			if ( isset( $data['description'] ) ) {
+				$error_message = $data['description'];
+			} elseif ( 403 === $status_code ) {
+				$error_message = 'Forbidden - Bot belum diaktifkan. Silakan buka bot Telegram Anda dan klik tombol "Start" terlebih dahulu, lalu coba lagi.';
+			} elseif ( 404 === $status_code ) {
+				$error_message = 'Bot Token tidak valid atau salah.';
+			} elseif ( 400 === $status_code ) {
+				$error_message = 'Chat ID salah atau format pesan tidak valid.';
+			}
+
+			return new WP_Error( 'telegram_api_error', $error_message );
+		}
+
+		return true;
+	}
+
+	/**
+	 * Test koneksi dengan token dan chat ID spesifik
+	 *
+	 * @param string $token Bot Token
+	 * @param string $chat_id Chat ID
+	 * @return bool|WP_Error
+	 */
+	public static function test_connection( $token, $chat_id ) {
+		if ( empty( $token ) || empty( $chat_id ) ) {
+			return new WP_Error( 'missing_credentials', 'Token dan Chat ID harus diisi.' );
+		}
+
+		$message = "🔔 *Tes Koneksi Berhasil*\n\nIni adalah pesan tes dari plugin Jawara Web Shield AI.\nJika Anda menerima pesan ini, berarti konfigurasi bot Telegram Anda sudah benar.\n\nWebsite: " . site_url() . "\nWaktu: " . current_time( 'Y-m-d H:i:s' );
+
+		return self::send_message( $token, $chat_id, $message );
 	}
 }

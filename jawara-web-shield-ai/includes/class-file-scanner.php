@@ -80,7 +80,27 @@ class Jawara_File_Scanner {
 	 * @param string $file_path Path ke file
 	 */
 	private function handle_file_change( $file_path ) {
-		$file_content = file_get_contents( $file_path );
+		// Validasi file exists dan readable
+		if ( ! file_exists( $file_path ) || ! is_readable( $file_path ) ) {
+			Jawara_Security_Logger::log(
+				'file_integrity',
+				'medium',
+				"Cannot read file: " . $file_path,
+				$file_path
+			);
+			return;
+		}
+
+		$file_content = @file_get_contents( $file_path );
+		if ( false === $file_content ) {
+			Jawara_Security_Logger::log(
+				'file_integrity',
+				'medium',
+				"Failed to read file content: " . $file_path,
+				$file_path
+			);
+			return;
+		}
 
 		// Log the change
 		Jawara_Security_Logger::log(

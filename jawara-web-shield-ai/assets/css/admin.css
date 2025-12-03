@@ -1,269 +1,626 @@
-/* Jawara Web Shield AI - Admin Styles */
+/**
+ * Jawara Web Shield AI - Admin Styles
+ * Version: 1.0.2
+ */
 
-.wrap {
-	max-width: 1200px;
-	margin: 20px auto;
+/* ==================================================
+   MAIN CONTAINER
+   ================================================== */
+.jwsai-admin-wrap {
+    max-width: 1200px;
+    margin: 20px 0;
 }
 
+.jwsai-admin-wrap h1 {
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+/* ==================================================
+   NAVIGATION TABS
+   ================================================== */
 .nav-tab-wrapper {
-	background-color: #f1f1f1;
-	border-bottom: 1px solid #ccc;
-	margin: 20px 0 0;
-	padding: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
 }
 
 .nav-tab {
-	background-color: #fafafa;
-	border: 1px solid #ccc;
-	border-bottom: none;
-	color: #555;
-	margin-right: 0;
-	padding: 10px 15px;
-	text-decoration: none;
-	display: inline-block;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    background: #f1f1f1;
+    padding: 10px 20px;
+    margin-right: 5px;
+    text-decoration: none;
+    color: #0073aa;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .nav-tab:hover {
-	background-color: #fff;
-	color: #0073aa;
+    background: #e8e8e8;
 }
 
 .nav-tab-active {
-	background-color: #fff;
-	color: #0073aa;
-	border-bottom-color: #fff;
+    background: #fff;
+    color: #000;
+    border-bottom: 1px solid #fff;
+    position: relative;
+    bottom: -1px;
 }
 
-.tab-content {
-	background-color: #fff;
-	padding: 20px;
-	border: 1px solid #ccc;
-	border-top: none;
-}
-
+/* ==================================================
+   POSTBOX STYLING
+   ================================================== */
 .postbox {
-	background: #fff;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	margin-bottom: 20px;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+    margin-bottom: 20px;
 }
 
 .postbox h2 {
-	background: #f5f5f5;
-	border-bottom: 1px solid #e0e0e0;
-	margin: 0;
-	padding: 10px 15px;
-	font-size: 16px;
-	cursor: pointer;
+    margin: 0;
+    padding: 12px 20px;
+    font-size: 18px;
+    border-bottom: 1px solid #e5e5e5;
+    background: #f9f9f9;
 }
 
 .postbox .inside {
-	padding: 15px;
+    padding: 20px;
 }
 
-.postbox p {
-	margin: 0 0 15px 0;
+/* ==================================================
+   FORM STYLING
+   ================================================== */
+.form-table th {
+    width: 200px;
+    font-weight: 600;
+    padding: 15px 10px 15px 0;
 }
 
-.jwsai-input-group {
-	display: flex;
-	gap: 10px;
-	align-items: center;
-	margin: 15px 0;
+.form-table td {
+    padding: 15px 10px;
 }
 
-.jwsai-input-group input {
-	flex: 1;
-	margin: 0;
+.form-table p.description {
+    margin-top: 5px;
+    color: #666;
+    font-style: italic;
 }
 
-.jwsai-input-group button {
-	margin: 0;
+/* ==================================================
+   STATS CARDS
+   ================================================== */
+.jwsai-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
 }
 
-#jwsai-scan-progress {
-	padding: 15px;
-	background: #f9f9f9;
-	border: 1px solid #ddd;
-	border-radius: 4px;
+.jwsai-stat-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
 }
 
-#jwsai-progress-bar {
-	background: linear-gradient(90deg, #2271b1, #135e96);
+.jwsai-stat-card:hover {
+    transform: translateY(-5px);
 }
 
-.badge {
-	display: inline-block;
-	padding: 3px 8px;
-	border-radius: 3px;
-	font-size: 11px;
-	font-weight: bold;
-	text-transform: uppercase;
+.jwsai-stat-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-table.widefat {
-	border-collapse: collapse;
-	margin: 15px 0;
+.jwsai-stat-card .stat-value {
+    font-size: 36px;
+    font-weight: bold;
+    margin: 0;
 }
 
-table.widefat th,
-table.widefat td {
-	padding: 10px;
-	border-bottom: 1px solid #ddd;
-	text-align: left;
+.jwsai-stat-card.warning {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
 }
 
-table.widefat thead {
-	background: #f5f5f5;
-	font-weight: bold;
+.jwsai-stat-card.success {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
 }
 
-table.widefat tbody tr:hover {
-	background: #f9f9f9;
+.jwsai-stat-card.info {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
 }
 
-table.widefat.striped tbody tr:nth-child(odd) {
-	background: #fafafa;
+/* ==================================================
+   FIREWALL IP LISTS
+   ================================================== */
+.jwsai-ip-list {
+    margin-top: 20px;
 }
 
-.button {
-	padding: 6px 12px;
-	font-size: 13px;
-	border-radius: 3px;
-	border: 1px solid #ccc;
-	background: #fafafa;
-	color: #555;
-	cursor: pointer;
-	text-decoration: none;
-	display: inline-block;
+.jwsai-ip-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    transition: background 0.2s ease;
 }
 
-.button:hover {
-	background: #f5f5f5;
-	color: #333;
+.jwsai-ip-item:hover {
+    background: #f1f1f1;
 }
 
+.jwsai-ip-item code {
+    font-family: 'Courier New', monospace;
+    background: #fff;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 13px;
+}
+
+.jwsai-ip-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.jwsai-ip-add {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.jwsai-ip-add input[type="text"] {
+    flex: 1;
+    max-width: 300px;
+}
+
+/* ==================================================
+   SCAN PROGRESS
+   ================================================== */
+.jwsai-scan-progress {
+    margin-top: 20px;
+    display: none;
+}
+
+.jwsai-scan-progress.active {
+    display: block;
+}
+
+.jwsai-progress-bar {
+    width: 100%;
+    height: 30px;
+    background: #f0f0f0;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+.jwsai-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    width: 0%;
+    transition: width 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.jwsai-scan-status {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+}
+
+/* ==================================================
+   SECURITY LOGS TABLE
+   ================================================== */
+.jwsai-logs-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.jwsai-logs-table th {
+    background: #f9f9f9;
+    text-align: left;
+    padding: 12px;
+    border-bottom: 2px solid #ddd;
+    font-weight: 600;
+}
+
+.jwsai-logs-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.jwsai-logs-table tr:hover {
+    background: #f9f9f9;
+}
+
+.severity-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.severity-low {
+    background: #d4edda;
+    color: #155724;
+}
+
+.severity-medium {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.severity-high {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.severity-critical {
+    background: #ff0000;
+    color: #fff;
+}
+
+/* ==================================================
+   BUTTONS
+   ================================================== */
 .button-primary {
-	background: #0073aa;
-	color: white;
-	border-color: #005a87;
+    background: #667eea;
+    border-color: #667eea;
+    transition: all 0.3s ease;
 }
 
 .button-primary:hover {
-	background: #005a87;
-	color: white;
+    background: #764ba2;
+    border-color: #764ba2;
 }
 
-.button-small {
-	padding: 4px 8px;
-	font-size: 11px;
+.button-danger {
+    background: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
 }
 
-.description {
-	display: block;
-	color: #666;
-	font-size: 13px;
-	margin-top: 5px;
+.button-danger:hover {
+    background: #c82333;
+    border-color: #bd2130;
+    color: #fff;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="number"],
-textarea {
-	padding: 8px;
-	border: 1px solid #ddd;
-	border-radius: 3px;
-	font-size: 14px;
+/* ==================================================
+   NOTICES
+   ================================================== */
+.notice.jwsai-notice {
+    border-left-width: 4px;
+    padding: 12px;
+    margin: 20px 0;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="number"]:focus,
-textarea:focus {
-	outline: none;
-	border-color: #0073aa;
-	box-shadow: 0 0 3px rgba(0, 115, 170, 0.3);
+.jwsai-notice p {
+    margin: 0.5em 0;
 }
 
-.regular-text {
-	width: 100%;
-	max-width: 500px;
-}
-
-.small-text {
-	width: 80px;
-}
-
-code {
-	background: #f5f5f5;
-	padding: 2px 5px;
-	border-radius: 3px;
-	font-family: 'Courier New', monospace;
-	font-size: 13px;
-}
-
-pre {
-	background: #f5f5f5;
-	padding: 12px;
-	border-radius: 3px;
-	overflow: auto;
-	font-size: 12px;
-}
-
-details {
-	margin: 5px 0;
-}
-
-summary {
-	cursor: pointer;
-	color: #0073aa;
-	font-weight: bold;
-}
-
-summary:hover {
-	text-decoration: underline;
-}
-
-hr {
-	border: none;
-	border-top: 1px solid #e0e0e0;
-	margin: 20px 0;
-}
-
-.dashicons {
-	display: inline-block;
-	width: 20px;
-	height: 20px;
-	margin-right: 5px;
-}
-
-/* Animation */
-@keyframes spin {
-	0% { transform: rotate(0deg); }
-	100% { transform: rotate(360deg); }
-}
-
-.jwsai-loading {
-	animation: spin 1s linear infinite;
-}
-
-/* Responsive */
+/* ==================================================
+   RESPONSIVE
+   ================================================== */
 @media (max-width: 768px) {
-	.jwsai-input-group {
-		flex-direction: column;
-	}
+    .jwsai-stats {
+        grid-template-columns: 1fr;
+    }
 
-	.jwsai-input-group button {
-		width: 100%;
-	}
+    .jwsai-ip-add {
+        flex-direction: column;
+    }
 
-	table.widefat {
-		font-size: 12px;
-	}
+    .jwsai-ip-add input[type="text"] {
+        max-width: 100%;
+    }
 
-	table.widefat th,
-	table.widefat td {
-		padding: 5px;
-	}
+    .form-table th,
+    .form-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .form-table th {
+        padding-bottom: 5px;
+    }
+
+    .form-table td {
+        padding-top: 0;
+    }
+}
+
+/* ==================================================
+   LOADING SPINNER
+   ================================================== */
+.jwsai-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: #667eea;
+    animation: jwsai-spin 1s ease-in-out infinite;
+    margin-left: 10px;
+}
+
+@keyframes jwsai-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==================================================
+   UTILITY CLASSES
+   ================================================== */
+.jwsai-hidden {
+    display: none;
+}
+
+.jwsai-mt-20 {
+    margin-top: 20px;
+}
+
+.jwsai-mb-20 {
+    margin-bottom: 20px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-success {
+    color: #28a745;
+}
+
+.text-danger {
+    color: #dc3545;
+}
+
+.text-warning {
+    color: #ffc107;
+}
+
+/* ==================================================
+   DASHBOARD SPECIFIC STYLES
+   ================================================== */
+.jwsai-dashboard-header {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.jwsai-health-score {
+    margin-right: 30px;
+}
+
+.score-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 8px solid #eee;
+    position: relative;
+}
+
+.score-circle.good {
+    border-color: #28a745;
+    color: #28a745;
+}
+
+.score-circle.warning {
+    border-color: #ffc107;
+    color: #ffc107;
+}
+
+.score-circle.critical {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.score-circle .score {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.score-circle .label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #666;
+}
+
+.jwsai-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.jwsai-stat-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.jwsai-stat-card .icon {
+    font-size: 32px;
+    margin-right: 15px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f0f0f1;
+}
+
+.jwsai-stat-card.primary .icon {
+    color: #007bff;
+    background: rgba(0, 123, 255, 0.1);
+}
+
+.jwsai-stat-card.danger .icon {
+    color: #dc3545;
+    background: rgba(220, 53, 69, 0.1);
+}
+
+.jwsai-stat-card.warning .icon {
+    color: #ffc107;
+    background: rgba(255, 193, 7, 0.1);
+}
+
+.jwsai-stat-card.success .icon {
+    color: #28a745;
+    background: rgba(40, 167, 69, 0.1);
+}
+
+.jwsai-stat-card h3 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.jwsai-stat-card p {
+    margin: 0;
+    color: #666;
+    font-size: 12px;
+}
+
+.jwsai-dashboard-columns {
+    display: flex;
+    gap: 20px;
+}
+
+.jwsai-col-main {
+    flex: 2;
+}
+
+.jwsai-col-side {
+    flex: 1;
+}
+
+.jwsai-live-indicator {
+    float: right;
+    font-size: 12px;
+    color: #28a745;
+    display: flex;
+    align-items: center;
+}
+
+.jwsai-live-indicator .pulse {
+    width: 8px;
+    height: 8px;
+    background: #28a745;
+    border-radius: 50%;
+    margin-right: 5px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(1.2);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.url-cell {
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.badge {
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.badge.allowed {
+    background: #d4edda;
+    color: #155724;
+}
+
+.badge.blocked {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.threat-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.threat-item:last-child {
+    border-bottom: none;
+}
+
+.threat-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+
+.threat-details {
+    font-size: 11px;
+    color: #666;
+}
+
+.severity-critical {
+    border-left: 3px solid #dc3545;
+    padding-left: 10px;
+}
+
+.severity-high {
+    border-left: 3px solid #fd7e14;
+    padding-left: 10px;
+}
+
+@media (max-width: 960px) {
+    .jwsai-dashboard-columns {
+        flex-direction: column;
+    }
 }

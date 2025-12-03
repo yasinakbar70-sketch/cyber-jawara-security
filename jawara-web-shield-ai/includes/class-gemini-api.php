@@ -35,8 +35,8 @@ class Jawara_Gemini_API {
 			$file_content = file_get_contents( $file_path );
 		}
 
-		if ( strlen( $file_content ) > 50000 ) {
-			$file_content = substr( $file_content, 0, 50000 ) . "\n... [File truncated for analysis]";
+		if ( strlen( $file_content ) > 100000 ) {
+			$file_content = substr( $file_content, 0, 100000 ) . "\n... [File truncated for analysis]";
 		}
 
 		$prompt = "Analyze the following PHP file for potential malware, security issues, and suspicious patterns:\n\n" .

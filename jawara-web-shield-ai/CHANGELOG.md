@@ -4,7 +4,90 @@ Semua perubahan notable pada plugin Jawara Web Shield AI akan didokumentasikan d
 
 Format yang digunakan mengikuti [Keep a Changelog](https://keepachangelog.com/).
 
-## [1.0.0] - 2025-11-29
+## [2.0.0] - 2024-12-01
+
+### 🚀 Major Release - Enterprise-Grade Security
+
+### Added
+- **Advanced Malware Scanner** dengan multi-engine detection
+  - 200+ malware signatures (PHP execution, obfuscation, backdoors, SQL injection, etc)
+  - Heuristic analysis dengan 8+ rules
+  - AI-powered analysis integration dengan Gemini
+  - Threat scoring system (0-100)
+  - Quarantine system untuk infected files
+  - Batch scanning capabilities
+- **Advanced Firewall** dengan intelligent protection
+  - SQL injection detection dan prevention (24+ patterns)
+  - XSS (Cross-Site Scripting) protection (26+ patterns)
+  - Rate limiting per IP address
+  - Bad bot filtering (18+ known malicious bots)
+  - Custom firewall rules engine
+  - Geo-blocking berdasarkan country code
+- **Geo-IP Service**
+  - IP geolocation lookup menggunakan ipapi.co
+  - Country detection dan blocking
+  - Caching untuk performance (24 hours)
+  - Support 60+ countries
+- **Threat Intelligence Integration**
+  - AbuseIPDB API integration
+  - IP reputation checking
+  - Abuse confidence scoring
+  - Auto-blacklist untuk malicious IPs
+  - Threat level classification (clean/low/medium/high/critical)
+  - Database caching untuk repeated lookups
+  - New database table: `wp_jwsai_threat_intelligence`
+- **Admin Interface** untuk Advanced Security
+  - Threat Intelligence statistics dashboard
+  - Attack protection toggles (SQL/XSS/Bots)
+  - Rate limiting configuration
+  - Geo-blocking management
+  - AbuseIPDB API key setup
+
+### Enhanced
+- Security logging dengan threat data
+- Telegram notifications untuk firewall blocks
+- Real-time threat monitoring
+- Performance dengan caching strategies
+
+### Database
+- New table: `wp_jwsai_threat_intelligence` untuk IP reputation data
+- Indexes untuk fast lookups (ip_address, last_checked, is_malicious)
+
+### Configuration
+- 8 new options untuk advanced security
+- Default values optimized untuk security
+- Backward compatible dengan 1.x settings
+
+### Performance
+- Efficient caching untuk Geo-IP lookups
+- Transient-based rate limiting
+- Minimal database queries
+- Smart signature checking
+
+## [1.0.2] - 2024-12-01
+
+### Fixed
+- Removed duplicate Plugin Update Checker initialization code
+- Synchronized plugin version constant (1.0.2) with header version
+- Re-enabled CSRF protection (nonce verification) for Telegram test functionality
+- Fixed firewall log severity levels from 'info' to 'medium' to match documentation
+- Increased file truncation limit from 50KB to 100KB for better AI analysis
+- Added comprehensive error handling in file scanner for read failures
+
+### Added
+- Complete admin.css with modern gradient styling and responsive design
+- Complete admin.js with AJAX handlers for all admin functionality
+- Languages directory structure for i18n support
+- Tab navigation with localStorage persistence
+- IP address validation in JavaScript
+
+### Improved
+- Enhanced user experience with loading spinners and progress indicators
+- Better error messages and user feedback
+- More robust file reading with proper validation
+- Documentation accuracy in README and CHANGELOG
+
+## [1.0.0] - 2024-11-29
 
 ### Added
 - Initial release dari Jawara Web Shield AI
@@ -125,4 +208,6 @@ Untuk support, dokumentasi, atau pertanyaan:
 ---
 
 **Version History:**
-- 1.0.0 (2025-11-29) - Initial Release
+- 2.0.0 (2024-12-01) - **MAJOR RELEASE** - Enterprise-Grade Security
+- 1.0.2 (2024-12-01) - Bug Fixes & Improvements
+- 1.0.0 (2024-11-29) - Initial Release

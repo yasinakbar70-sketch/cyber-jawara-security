@@ -1,327 +1,259 @@
 /**
  * Jawara Web Shield AI - Admin JavaScript
+ * Version: 2.0.0
  */
 
-(function($) {
-	'use strict';
+(function ($) {
+    'use strict';
 
-	/**
-	 * Scan Manual
-	 */
-	$(document).on('click', '#jwsai-scan-button', function(e) {
-		e.preventDefault();
+    // Document ready
+    $(document).ready(function () {
+        // Manual scan functionality
+        initManualScan();
 
-		var $button = $(this);
-		var originalText = $button.text();
+        // Firewall IP management
+        initFirewallIPManagement();
 
-		$button.prop('disabled', true).html(jwsaiL10n.scanning);
-		$('#jwsai-scan-progress').show();
-		$('#jwsai-scan-results').html('');
+        // Telegram test
+        initTelegramTest();
+    });
 
-		$.ajax({
-			url: jwsaiL10n.ajaxurl,
-			type: 'POST',
-			dataType: 'json',
-			data: {
-				action: 'jwsai_scan_manual',
-				nonce: jwsaiL10n.nonce
-			},
-			success: function(response) {
-				if (response.success) {
-					displayScanResults(response.data);
-				} else {
-					showError(response.data || 'Scan failed');
-				}
-			},
-			error: function() {
-				showError('AJAX request failed');
-			},
-			complete: function() {
-				$button.prop('disabled', false).html(originalText);
-				$('#jwsai-scan-progress').hide();
-			}
-		});
-	});
+    /**
+     * Initialize manual scan functionality
+     */
+    function initManualScan() {
+        $('#jwsai-start-scan').on('click', function (e) {
+            e.preventDefault();
 
-	/**
-	 * Display scan results
-	 */
-	function displayScanResults(data) {
-		var html = '<div style="background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 15px;">';
+            var $button = $(this);
+            var $progress = $('.jwsai-scan-progress');
+            var $progressFill = $('.jwsai-progress-fill');
+            var $status = $('.jwsai-scan-status');
 
-		html += '<h3>Scan Results</h3>';
-		html += '<p>Scanned: <strong>' + data.scanned + '</strong> files</p>';
+            // Disable button
+            $button.prop('disabled', true);
+            $button.text(jwsaiL10n.scanning);
 
-		if (data.files && data.files.length > 0) {
-			html += '<table class="widefat striped">';
-			html += '<thead><tr><th>File</th><th>Status</th><th>Hash</th></tr></thead>';
-			html += '<tbody>';
+            // Show progress bar
+            $progress.addClass('active');
+            $progressFill.css('width', '0%').text('0%');
+            $status.text('Initializing scan...');
 
-			$.each(data.files, function(i, file) {
-				var statusClass = 'status-' + file.status;
-				var statusIcon = '';
+            // Simulate progress (in real scenario, you'd get this from server)
+            var progress = 0;
+            var progressInterval = setInterval(function () {
+                progress += Math.random() * 15;
+                if (progress > 95) progress = 95;
 
-				if (file.status === 'unchanged') {
-					statusIcon = '✓ ';
-				} else if (file.status === 'changed') {
-					statusIcon = '✗ ';
-				}
+                $progressFill.css('width', progress + '%').text(Math.round(progress) + '%');
+            }, 500);
 
-				html += '<tr>';
-				html += '<td><code style="word-break: break-all;">' + escapeHtml(file.path) + '</code></td>';
-				html += '<td><span style="color: ' + getStatusColor(file.status) + '; font-weight: bold;">' + statusIcon + file.status.toUpperCase() + '</span></td>';
-				html += '<td><code style="font-size: 11px;">' + file.hash.substring(0, 16) + '...</code></td>';
-				html += '</tr>';
-			});
+            // Send AJAX request
+            $.ajax({
+                url: jwsaiL10n.ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'jwsai_scan_manual',
+                    nonce: jwsaiL10n.nonce
+                },
+                success: function (response) {
+                    clearInterval(progressInterval);
+                    $progressFill.css('width', '100%').text('100%');
 
-			html += '</tbody></table>';
-		}
+                    if (response.success) {
+                        $status.html('<span class="text-success">✓ ' + jwsaiL10n.scanComplete + '</span>');
 
-		html += '</div>';
+                        // Show results
+                        if (response.data.scanned) {
+                            setTimeout(function () {
+                                alert('Scan complete!\\nFiles scanned: ' + response.data.scanned);
+                                location.reload();
+                            }, 1000);
+                        }
+                    } else {
+                        $status.html('<span class="text-danger">✗ Error: ' + response.data + '</span>');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    clearInterval(progressInterval);
+                    $status.html('<span class="text-danger">✗ AJAX Error: ' + error + '</span>');
+                },
+                complete: function () {
+                    // Re-enable button
+                    setTimeout(function () {
+                        $button.prop('disabled', false);
+                        $button.text('Start Manual Scan');
+                    }, 2000);
+                }
+            });
+        });
+    }
 
-		$('#jwsai-scan-results').html(html);
-	}
+    /**
+     * Initialize Firewall IP Management
+     */
+    function initFirewallIPManagement() {
+        // Add to blacklist
+        $('#jwsai-add-blacklist').on('click', function (e) {
+            e.preventDefault();
+            var ip = $('#jwsai-blacklist-ip').val().trim();
 
-	/**
-	 * Get status color
-	 */
-	function getStatusColor(status) {
-		switch(status) {
-			case 'unchanged':
-				return '#2ecc71';
-			case 'changed':
-				return '#e74c3c';
-			case 'new':
-				return '#3498db';
-			default:
-				return '#95a5a6';
-		}
-	}
+            if (!ip) {
+                alert('Please enter an IP address');
+                return;
+            }
 
-	/**
-	 * Show error message
-	 */
-	function showError(message) {
-		var html = '<div style="background: #fee; border: 1px solid #f88; border-radius: 4px; padding: 12px; color: #c33;">';
-		html += '<strong>Error:</strong> ' + escapeHtml(message);
-		html += '</div>';
-		$('#jwsai-scan-results').html(html);
-	}
+            if (!isValidIP(ip)) {
+                alert('Invalid IP address format');
+                return;
+            }
 
-	/**
-	 * Escape HTML
-	 */
-	function escapeHtml(text) {
-		var map = {
-			'&': '&amp;',
-			'<': '&lt;',
-			'>': '&gt;',
-			'"': '&quot;',
-			"'": '&#039;'
-		};
-		return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-	}
+            manageIP('add', 'blacklist', ip);
+        });
 
-	/**
-	 * Blacklist IP functions
-	 */
-	$(document).on('click', '#jwsai-add-blacklist', function(e) {
-		e.preventDefault();
-		var ip = $('#jwsai-blacklist-input').val().trim();
+        // Add to whitelist
+        $('#jwsai-add-whitelist').on('click', function (e) {
+            e.preventDefault();
+            var ip = $('#jwsai-whitelist-ip').val().trim();
 
-		if (!ip) {
-			showMessage('Please enter an IP address', 'error');
-			return;
-		}
+            if (!ip) {
+                alert('Please enter an IP address');
+                return;
+            }
 
-		if (!isValidIP(ip)) {
-			showMessage('Invalid IP address format', 'error');
-			return;
-		}
+            if (!isValidIP(ip)) {
+                alert('Invalid IP address format');
+                return;
+            }
 
-		$.ajax({
-			url: jwsaiL10n.ajaxurl,
-			type: 'POST',
-			dataType: 'json',
-			data: {
-				action: 'jwsai_add_blacklist_ip',
-				ip: ip,
-				nonce: jwsaiL10n.nonce
-			},
-			success: function(response) {
-				if (response.success) {
-					$('#jwsai-blacklist-input').val('');
-					location.reload();
-				} else {
-					showMessage(response.data, 'error');
-				}
-			},
-			error: function() {
-				showMessage('Request failed', 'error');
-			}
-		});
-	});
+            manageIP('add', 'whitelist', ip);
+        });
 
-	$(document).on('click', '.jwsai-remove-blacklist', function(e) {
-		e.preventDefault();
-		var ip = $(this).data('ip');
+        // Remove from blacklist
+        $(document).on('click', '.jwsai-remove-blacklist', function (e) {
+            e.preventDefault();
+            var ip = $(this).data('ip');
+            if (confirm('Remove ' + ip + ' from blacklist?')) {
+                manageIP('remove', 'blacklist', ip);
+            }
+        });
 
-		if (!confirm('Remove ' + ip + ' from blacklist?')) {
-			return;
-		}
+        // Remove from whitelist
+        $(document).on('click', '.jwsai-remove-whitelist', function (e) {
+            e.preventDefault();
+            var ip = $(this).data('ip');
+            if (confirm('Remove ' + ip + ' from whitelist?')) {
+                manageIP('remove', 'whitelist', ip);
+            }
+        });
+    }
 
-		$.ajax({
-			url: jwsaiL10n.ajaxurl,
-			type: 'POST',
-			dataType: 'json',
-			data: {
-				action: 'jwsai_remove_blacklist_ip',
-				ip: ip,
-				nonce: jwsaiL10n.nonce
-			},
-			success: function(response) {
-				if (response.success) {
-					location.reload();
-				} else {
-					showMessage(response.data, 'error');
-				}
-			}
-		});
-	});
+    /**
+     * Manage IP (add/remove from blacklist/whitelist)
+     */
+    function manageIP(action, listType, ip) {
+        var ajaxAction = 'jwsai_' + action + '_' + listType + '_ip';
 
-	/**
-	 * Whitelist IP functions
-	 */
-	$(document).on('click', '#jwsai-add-whitelist', function(e) {
-		e.preventDefault();
-		var ip = $('#jwsai-whitelist-input').val().trim();
+        $.ajax({
+            url: jwsaiL10n.ajaxurl,
+            type: 'POST',
+            data: {
+                action: ajaxAction,
+                nonce: jwsaiL10n.nonce,
+                ip: ip
+            },
+            success: function (response) {
+                if (response.success) {
+                    alert(response.data);
+                    location.reload();
+                } else {
+                    alert('Error: ' + response.data);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert('AJAX Error: ' + error);
+            }
+        });
+    }
 
-		if (!ip) {
-			showMessage('Please enter an IP address', 'error');
-			return;
-		}
+    /**
+     * Initialize Telegram Test
+     */
+    function initTelegramTest() {
+        $('#jwsai-test-telegram').on('click', function (e) {
+            e.preventDefault();
 
-		if (!isValidIP(ip)) {
-			showMessage('Invalid IP address format', 'error');
-			return;
-		}
+            var $button = $(this);
+            var $result = $('#jwsai-test-telegram-result');
 
-		$.ajax({
-			url: jwsaiL10n.ajaxurl,
-			type: 'POST',
-			dataType: 'json',
-			data: {
-				action: 'jwsai_add_whitelist_ip',
-				ip: ip,
-				nonce: jwsaiL10n.nonce
-			},
-			success: function(response) {
-				if (response.success) {
-					$('#jwsai-whitelist-input').val('');
-					location.reload();
-				} else {
-					showMessage(response.data, 'error');
-				}
-			},
-			error: function() {
-				showMessage('Request failed', 'error');
-			}
-		});
-	});
+            // Disable button and show loading
+            $button.prop('disabled', true);
+            $result.html('<span class="jwsai-spinner"></span>');
 
-	$(document).on('click', '.jwsai-remove-whitelist', function(e) {
-		e.preventDefault();
-		var ip = $(this).data('ip');
+            var token = $('#jwsai_telegram_token').val().trim();
+            var chatId = $('#jwsai_telegram_chat_id').val().trim();
 
-		if (!confirm('Remove ' + ip + ' from whitelist?')) {
-			return;
-		}
+            if (!token || !chatId) {
+                alert('Please enter Telegram Bot Token and Chat ID first.');
+                $button.prop('disabled', false);
+                $result.html('');
+                return;
+            }
 
-		$.ajax({
-			url: jwsaiL10n.ajaxurl,
-			type: 'POST',
-			dataType: 'json',
-			data: {
-				action: 'jwsai_remove_whitelist_ip',
-				ip: ip,
-				nonce: jwsaiL10n.nonce
-			},
-			success: function(response) {
-				if (response.success) {
-					location.reload();
-				} else {
-					showMessage(response.data, 'error');
-				}
-			}
-		});
-	});
+            $.ajax({
+                url: jwsaiL10n.ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'jwsai_test_telegram',
+                    nonce: jwsaiL10n.nonce,
+                    token: token,
+                    chat_id: chatId
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $result.html('<span class="text-success">✓ ' + response.data + '</span>');
+                    } else {
+                        $result.html('<span class="text-danger">✗ ' + response.data + '</span>');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $result.html('<span class="text-danger">✗ Error: ' + error + '</span>');
+                },
+                complete: function () {
+                    $button.prop('disabled', false);
 
-	/**
-	 * Validate IP address
-	 */
-	function isValidIP(ip) {
-		var ipv4Pattern = /^(\d{1,3}\.){3}\d{1,3}$/;
-		if (!ipv4Pattern.test(ip)) {
-			return false;
-		}
+                    // Clear result after 5 seconds
+                    setTimeout(function () {
+                        $result.fadeOut(function () {
+                            $(this).html('').show();
+                        });
+                    }, 5000);
+                }
+            });
+        });
+    }
 
-		var parts = ip.split('.');
-		for (var i = 0; i < parts.length; i++) {
-			var part = parseInt(parts[i], 10);
-			if (part > 255) {
-				return false;
-			}
-		}
+    /**
+     * Validate IP address format
+     */
+    function isValidIP(ip) {
+        var ipPattern = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+        return ipPattern.test(ip);
+    }
 
-		return true;
-	}
+    /**
+     * Show notification
+     */
+    function showNotification(message, type) {
+        var $notice = $('<div class="notice notice-' + type + ' is-dismissible jwsai-notice"><p>' + message + '</p></div>');
+        $('.jwsai-admin-wrap').prepend($notice);
 
-	/**
-	 * Show message
-	 */
-	function showMessage(message, type) {
-		var bgColor = type === 'error' ? '#fee' : '#efe';
-		var borderColor = type === 'error' ? '#f88' : '#8f8';
-		var textColor = type === 'error' ? '#c33' : '#3c3';
+        // Auto dismiss after 5 seconds
+        setTimeout(function () {
+            $notice.fadeOut(function () {
+                $(this).remove();
+            });
+        }, 5000);
+    }
 
-		var html = '<div style="background: ' + bgColor + '; border: 1px solid ' + borderColor + '; border-radius: 4px; padding: 12px; color: ' + textColor + '; margin: 10px 0;">';
-		html += escapeHtml(message);
-		html += '</div>';
-
-		$('#jwsai-message').html(html);
-	}
-
-})(jQuery);
-
-// Test Telegram Connection
-(function($) {
-	$(document).on('click', '#jwsai-test-telegram', function(e) {
-		e.preventDefault();
-		var $btn = $(this);
-		var $result = $('#jwsai-test-telegram-result');
-		$btn.prop('disabled', true);
-		$result.text('Testing...');
-		$.ajax({
-			url: jwsaiL10n.ajaxurl,
-			type: 'POST',
-			dataType: 'json',
-			data: {
-				action: 'jwsai_test_telegram',
-				nonce: jwsaiL10n.nonce
-			},
-			success: function(response) {
-				if (response.success) {
-					$result.html('<span style="color:green;">' + response.data + '</span>');
-				} else {
-					$result.html('<span style="color:red;">' + response.data + '</span>');
-				}
-			},
-			error: function() {
-				$result.html('<span style="color:red;">AJAX request failed</span>');
-			},
-			complete: function() {
-				$btn.prop('disabled', false);
-			}
-		});
-	});
 })(jQuery);
