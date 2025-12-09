@@ -4,6 +4,11 @@ Semua perubahan notable pada plugin Cyber Jawara Security akan didokumentasikan 
 
 Format yang digunakan mengikuti [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.1.2] - 2025-12-09
+
+### Changed
+- **Structure Update**: Memindahkan seluruh file plugin ke root repository untuk memperbaiki masalah instalasi dari GitHub ZIP. Sekarang file bisa diinstall langsung tanpa error "No valid plugin found".
+
 ## [2.1.1] - 2025-12-09
 
 ### Fixed
