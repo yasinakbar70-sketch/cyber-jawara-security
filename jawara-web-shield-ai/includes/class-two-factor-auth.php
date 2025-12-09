@@ -22,6 +22,7 @@ class Jawara_Two_Factor_Auth {
 		add_action( 'wp_ajax_jwsai_setup_2fa', array( __CLASS__, 'ajax_setup_2fa' ) );
 		add_action( 'wp_ajax_jwsai_verify_2fa_setup', array( __CLASS__, 'ajax_verify_2fa_setup' ) );
 		add_action( 'wp_ajax_jwsai_disable_2fa', array( __CLASS__, 'ajax_disable_2fa' ) );
+		add_action( 'wp_ajax_jwsai_get_backup_codes', array( __CLASS__, 'ajax_get_backup_codes' ) );	
 	}
 
 	/**
@@ -316,6 +317,29 @@ class Jawara_Two_Factor_Auth {
 		Jawara_Security_Logger::log( 'security_config', 'medium', '2FA disabled for user', '', '', $user_id );
 		
 		wp_send_json_success( '2FA disabled successfully.' );
+	}
+
+	/**
+	 * AJAX: Get Backup Codes
+	 */
+	public static function ajax_get_backup_codes() {
+		check_ajax_referer( 'jwsai_nonce' );
+		
+		$user_id = get_current_user_id();
+		$codes = get_user_meta( $user_id, 'jwsai_2fa_backup_codes', true );
+		
+		if ( ! empty( $codes ) && is_array( $codes ) ) {
+			wp_send_json_success( $codes );
+		} else {
+			// Generate new ones if missing but 2FA is on
+			if ( get_user_meta( $user_id, 'jwsai_2fa_secret', true ) ) {
+				$codes = self::generate_backup_codes();
+				update_user_meta( $user_id, 'jwsai_2fa_backup_codes', $codes );
+				wp_send_json_success( $codes );
+			} else {
+				wp_send_json_error( '2FA not enabled.' );
+			}
+		}
 	}
 }
 

@@ -245,8 +245,17 @@ jQuery(document).ready(function($) {
 			},
 			success: function(response) {
 				if (response.success) {
-					alert(response.data.message);
-					location.reload();
+					// Sembunyikan form setup
+					$('#jwsai-2fa-setup-area').slideUp();
+					
+					// Tampilkan backup codes
+					var codes = response.data.backup_codes;
+					var codesHtml = '<h4>' + response.data.message + '</h4>';
+					codesHtml += '<div class="notice notice-warning"><p><strong>IMPORTANT:</strong> Save these backup codes. You will not see them again!</p></div>';
+					codesHtml += '<pre style="background:#f0f0f0; padding:15px; border:1px solid #ccc;">' + codes.join("\n") + '</pre>';
+					codesHtml += '<button type="button" class="button button-primary button-large" onclick="location.reload()">I have saved them, Continue</button>';
+					
+					$('#jwsai-2fa-status-area').html(codesHtml);
 				} else {
 					$('#jwsai-setup-message').html('<span class="text-danger">' + response.data + '</span>');
 				}
@@ -270,6 +279,34 @@ jQuery(document).ready(function($) {
 			success: function(response) {
 				if (response.success) {
 					location.reload();
+				} else {
+					alert('Error: ' + response.data);
+				}
+			}
+		});
+	});
+
+	// Show Backup Codes
+	$('#jwsai-show-backup-codes').on('click', function() {
+		var $area = $('#jwsai-backup-codes-display');
+		var $list = $('#jwsai-backup-codes-list');
+		
+		if ($area.is(':visible')) {
+			$area.slideUp();
+			return;
+		}
+
+		$.ajax({
+			url: jwsaiL10n.ajaxurl,
+			type: 'POST',
+			data: {
+				action: 'jwsai_get_backup_codes',
+				nonce: jwsaiL10n.nonce
+			},
+			success: function(response) {
+				if (response.success) {
+					$list.text(response.data.join("\n"));
+					$area.slideDown();
 				} else {
 					alert('Error: ' + response.data);
 				}
