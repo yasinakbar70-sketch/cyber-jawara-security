@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Cyber Jawara Security
- * Plugin URI: https://github.com/instanwaofficial-glitch/Plugin.git
+ * Plugin URI: https://github.com/yasinakbar70-sketch/cyber-jawara-security
  * Description: Plugin keamanan WordPress tingkat lanjut dengan AI (Gemini API) untuk deteksi malware, proteksi login, firewall IP, dan notifikasi Telegram
  * Version: 2.1.0
  * Author: Moh Yasin Akbar
@@ -14,7 +14,7 @@
  * Requires PHP: 7.4
  * Requires at least: 5.0
  *
- * GitHub Plugin URI: https://github.com/instanwaofficial-glitch/Plugin
+ * GitHub Plugin URI: https://github.com/yasinakbar70-sketch/cyber-jawara-security
  * GitHub Branch: main
  *
  * ==================================================

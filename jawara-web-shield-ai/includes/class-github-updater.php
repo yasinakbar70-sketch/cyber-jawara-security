@@ -13,12 +13,12 @@ class Jawara_GitHub_Updater {
 	/**
 	 * GitHub repository owner
 	 */
-	private $github_username = 'instanwaofficial-glitch';
+	private $github_username = 'yasinakbar70-sketch';
 
 	/**
 	 * GitHub repository name
 	 */
-	private $github_repo = 'Plugin';
+	private $github_repo = 'cyber-jawara-security';
 
 	/**
 	 * GitHub branch
