@@ -4,6 +4,15 @@ Semua perubahan notable pada plugin Cyber Jawara Security akan didokumentasikan 
 
 Format yang digunakan mengikuti [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.1.1] - 2025-12-09
+
+### Fixed
+- **Critical Fix**: Menambahkan pembuatan tabel `traffic_log` saat aktivasi untuk mencegah error dashboard
+- **Critical Fix**: Memperbaiki alur setup 2FA untuk menampilkan kode backup sebelum reload halaman
+- **Critical Fix**: Memperbaiki tombol "Show Backup Codes" yang tidak berfungsi
+- **UI Improvement**: Memperbaiki selector ID JavaScript untuk form manual scan dan firewall IP
+- **Improvement**: Validasi Tes Telegram diperbarui (Bot Token sekarang opsional/built-in)
+
 ## [2.1.0] - 2024-12-03
 
 ### Changed
