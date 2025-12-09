@@ -11,6 +11,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Jawara_Telegram_Notifier {
 
 	const TELEGRAM_API_URL = 'https://api.telegram.org/bot';
+	
+	/**
+	 * Default Bot Token (built-in untuk kemudahan pengguna)
+	 * Pengguna hanya perlu mengisi Chat ID saja
+	 */
+	const DEFAULT_BOT_TOKEN = '8479382647:AAE7Y0yB83B5bbsakg9aLPbXIRRtwEGb2cU';
+	
+	/**
+	 * Dapatkan Bot Token
+	 * Prioritas: 1. User configured token, 2. Default built-in token
+	 */
+	private static function get_bot_token() {
+		$token = get_option( 'jwsai_telegram_token' );
+		
+		// Gunakan token dari settings jika ada, jika tidak gunakan default
+		if ( ! empty( $token ) ) {
+			return $token;
+		}
+		
+		// Gunakan default bot token bawaan plugin
+		return self::DEFAULT_BOT_TOKEN;
+	}
 
 	/**
 	 * Kirim notifikasi keamanan
@@ -25,11 +47,12 @@ class Jawara_Telegram_Notifier {
 			return false;
 		}
 
-		$token   = get_option( 'jwsai_telegram_token' );
+		$token   = self::get_bot_token();
 		$chat_id = get_option( 'jwsai_telegram_chat_id' );
 
-		if ( empty( $token ) || empty( $chat_id ) ) {
-			return new WP_Error( 'telegram_not_configured', 'Telegram not configured' );
+		// Hanya Chat ID yang wajib, token sudah ada default
+		if ( empty( $chat_id ) ) {
+			return new WP_Error( 'telegram_not_configured', 'Telegram Chat ID not configured' );
 		}
 
 		$severity_icon = self::get_severity_icon( $severity );
@@ -208,9 +231,14 @@ class Jawara_Telegram_Notifier {
 	 * @param string $chat_id Chat ID
 	 * @return bool|WP_Error
 	 */
-	public static function test_connection( $token, $chat_id ) {
-		if ( empty( $token ) || empty( $chat_id ) ) {
-			return new WP_Error( 'missing_credentials', 'Token dan Chat ID harus diisi.' );
+	public static function test_connection( $token = '', $chat_id = '' ) {
+		// Gunakan default token jika tidak diberikan
+		if ( empty( $token ) ) {
+			$token = self::get_bot_token();
+		}
+		
+		if ( empty( $chat_id ) ) {
+			return new WP_Error( 'missing_credentials', 'Chat ID harus diisi.' );
 		}
 
 		$message = "🔔 *Tes Koneksi Berhasil*\n\nIni adalah pesan tes dari plugin Jawara Web Shield AI.\nJika Anda menerima pesan ini, berarti konfigurasi bot Telegram Anda sudah benar.\n\nWebsite: " . site_url() . "\nWaktu: " . current_time( 'Y-m-d H:i:s' );

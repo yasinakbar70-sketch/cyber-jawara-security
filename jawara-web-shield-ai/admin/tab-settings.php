@@ -26,6 +26,7 @@ $lockout_duration = get_option( 'jwsai_lockout_duration', 10 );
 					<th scope="row">
 						<label for="jwsai_gemini_api_key">
 							<?php esc_html_e( 'Gemini API Key', 'jawara-web-shield-ai' ); ?>
+							<span class="jwsai-badge-builtin">Built-in</span>
 						</label>
 					</th>
 					<td>
@@ -33,9 +34,12 @@ $lockout_duration = get_option( 'jwsai_lockout_duration', 10 );
 							   id="jwsai_gemini_api_key" 
 							   name="jwsai_gemini_api_key" 
 							   value="<?php echo esc_attr( $gemini_api_key ); ?>" 
-							   class="regular-text" />
+							   class="regular-text"
+							   placeholder="Kosongkan untuk menggunakan key bawaan" />
 						<p class="description">
-							<?php esc_html_e( 'Get your API key from https://makersuite.google.com/app/apikey', 'jawara-web-shield-ai' ); ?>
+							<span style="color: #0a9b0a;">✓ API Key bawaan sudah aktif.</span>
+							<?php esc_html_e( 'Opsional: Ganti dengan API key Anda sendiri dari', 'jawara-web-shield-ai' ); ?> 
+							<a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a>
 						</p>
 					</td>
 				</tr>
@@ -108,6 +112,7 @@ $lockout_duration = get_option( 'jwsai_lockout_duration', 10 );
 					<th scope="row">
 						<label for="jwsai_telegram_token">
 							<?php esc_html_e( 'Telegram Bot Token', 'jawara-web-shield-ai' ); ?>
+							<span class="jwsai-badge-builtin">Built-in</span>
 						</label>
 					</th>
 					<td>
@@ -115,22 +120,19 @@ $lockout_duration = get_option( 'jwsai_lockout_duration', 10 );
 							   id="jwsai_telegram_token" 
 							   name="jwsai_telegram_token" 
 							   value="<?php echo esc_attr( $telegram_token ); ?>" 
-							   class="regular-text" />
+							   class="regular-text"
+							   placeholder="Kosongkan untuk menggunakan bot bawaan" />
 						<p class="description">
-							<?php esc_html_e( 'Get from @BotFather on Telegram', 'jawara-web-shield-ai' ); ?>
+							<span style="color: #0a9b0a;">✓ Bot Token bawaan sudah aktif.</span>
+							<?php esc_html_e( 'Opsional: Ganti dengan bot Anda sendiri dari @BotFather', 'jawara-web-shield-ai' ); ?>
 						</p>
-						<?php if ( ! empty( $telegram_token ) ) : ?>
-							<p class="description" style="color: #666; font-size: 11px;">
-								<strong>Debug Info:</strong> <?php echo esc_html( substr( $telegram_token, 0, 10 ) . '...' . substr( $telegram_token, -8 ) ); ?>
-								(Length: <?php echo strlen( $telegram_token ); ?> characters)
-							</p>
-						<?php endif; ?>
 					</td>
 				</tr>
 				<tr>
 					<th scope="row">
 						<label for="jwsai_telegram_chat_id">
 							<?php esc_html_e( 'Telegram Chat ID', 'jawara-web-shield-ai' ); ?>
+							<span class="jwsai-badge-required">Wajib</span>
 						</label>
 					</th>
 					<td>
@@ -138,11 +140,12 @@ $lockout_duration = get_option( 'jwsai_lockout_duration', 10 );
 							   id="jwsai_telegram_chat_id" 
 							   name="jwsai_telegram_chat_id" 
 							   value="<?php echo esc_attr( $telegram_chat_id ); ?>" 
-							   class="regular-text" />
+							   class="regular-text"
+							   placeholder="Masukkan Chat ID Anda" />
 						<p class="description">
-							<?php esc_html_e( 'Your Telegram Chat ID (get from @userinfobot)', 'jawara-web-shield-ai' ); ?>
+							<?php esc_html_e( 'Chat ID Anda (dapatkan dari @userinfobot atau @getmyid_bot di Telegram)', 'jawara-web-shield-ai' ); ?>
 						</p>
-						<button type="button" class="button" id="jwsai-test-telegram">
+						<button type="button" class="button button-primary" id="jwsai-test-telegram">
 							<?php esc_html_e( 'Test Telegram Connection', 'jawara-web-shield-ai' ); ?>
 						</button>
 						<span id="jwsai-test-telegram-result" style="margin-left:10px;"></span>
@@ -154,3 +157,28 @@ $lockout_duration = get_option( 'jwsai_lockout_duration', 10 );
 		</form>
 	</div>
 </div>
+
+<style>
+.jwsai-badge-builtin {
+	display: inline-block;
+	background: #0a9b0a;
+	color: white;
+	font-size: 10px;
+	padding: 2px 6px;
+	border-radius: 3px;
+	margin-left: 5px;
+	font-weight: normal;
+	vertical-align: middle;
+}
+.jwsai-badge-required {
+	display: inline-block;
+	background: #dc3545;
+	color: white;
+	font-size: 10px;
+	padding: 2px 6px;
+	border-radius: 3px;
+	margin-left: 5px;
+	font-weight: normal;
+	vertical-align: middle;
+}
+</style>

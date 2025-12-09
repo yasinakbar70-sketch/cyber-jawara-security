@@ -3,7 +3,7 @@
  * Plugin Name: Cyber Jawara Security
  * Plugin URI: https://github.com/instanwaofficial-glitch/Plugin.git
  * Description: Plugin keamanan WordPress tingkat lanjut dengan AI (Gemini API) untuk deteksi malware, proteksi login, firewall IP, dan notifikasi Telegram
- * Version: 2.0.0
+ * Version: 2.1.0
  * Author: Moh Yasin Akbar
  * Author URI: git clone https://github.com/instanwaofficial-glitch
  * Copyright: 2025 Cyber Jawara Security
@@ -50,12 +50,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Definisikan konstanta plugin
 define( 'JWSAI_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'JWSAI_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'JWSAI_PLUGIN_VERSION', '2.0.0' );
+define( 'JWSAI_PLUGIN_VERSION', '2.1.0' );
 define( 'JWSAI_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 // Muat class utama
 require_once JWSAI_PLUGIN_DIR . 'includes/class-jawara-web-shield-ai.php';
 
+// Muat GitHub Updater untuk auto-update dari repository
+require_once JWSAI_PLUGIN_DIR . 'includes/class-github-updater.php';
 
 // Inisialisasi plugin
 Jawara_Web_Shield_AI::instance();

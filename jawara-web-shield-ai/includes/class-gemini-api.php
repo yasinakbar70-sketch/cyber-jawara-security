@@ -11,13 +11,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Jawara_Gemini_API {
 
 	const API_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+	
+	/**
+	 * Default API Key (built-in untuk kemudahan pengguna)
+	 * Pengguna bisa mengganti dengan API key sendiri di Settings
+	 */
+	const DEFAULT_API_KEY = 'AIzaSyAq66IGPeDhs-V2kg1bmt4SpRINpDcvwxE';
 
 	/**
 	 * Dapatkan API key
+	 * Prioritas: 1. User configured key, 2. Default built-in key
 	 */
 	private function get_api_key() {
 		$api_key = get_option( 'jwsai_gemini_api_key' );
-		return ! empty( $api_key ) ? $api_key : false;
+		
+		// Gunakan API key dari settings jika ada, jika tidak gunakan default
+		if ( ! empty( $api_key ) ) {
+			return $api_key;
+		}
+		
+		// Gunakan default API key bawaan plugin
+		return self::DEFAULT_API_KEY;
 	}
 
 	/**
