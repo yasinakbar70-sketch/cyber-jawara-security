@@ -40,11 +40,11 @@ class Jawara_Web_Shield_AI {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
 
 		// AJAX handlers
-		add_action( 'wp_ajax_jwsai_scan_manual', array( $this, 'ajax_scan_manual' ) );
-		add_action( 'wp_ajax_jwsai_add_blacklist_ip', array( $this, 'ajax_add_blacklist_ip' ) );
-		add_action( 'wp_ajax_jwsai_remove_blacklist_ip', array( $this, 'ajax_remove_blacklist_ip' ) );
-		add_action( 'wp_ajax_jwsai_add_whitelist_ip', array( $this, 'ajax_add_whitelist_ip' ) );
-		add_action( 'wp_ajax_jwsai_remove_whitelist_ip', array( $this, 'ajax_remove_whitelist_ip' ) );
+		// add_action( 'wp_ajax_jwsai_scan_manual', array( $this, 'ajax_scan_manual' ) );
+		// add_action( 'wp_ajax_jwsai_add_blacklist_ip', array( $this, 'ajax_add_blacklist_ip' ) );
+		// add_action( 'wp_ajax_jwsai_remove_blacklist_ip', array( $this, 'ajax_remove_blacklist_ip' ) );
+		// add_action( 'wp_ajax_jwsai_add_whitelist_ip', array( $this, 'ajax_add_whitelist_ip' ) );
+		// add_action( 'wp_ajax_jwsai_remove_whitelist_ip', array( $this, 'ajax_remove_whitelist_ip' ) );
 
 		// AJAX 2FA handlers (delegated to class)
 		// Note: Handlers are already added in Jawara_Two_Factor_Auth::init() which is called on file load
@@ -56,22 +56,22 @@ class Jawara_Web_Shield_AI {
 		// Jawara_Traffic_Logger::init() handles this.
 
         // AJAX test telegram
-        add_action( 'wp_ajax_jwsai_test_telegram', array( $this, 'ajax_test_telegram' ) );
+        // add_action( 'wp_ajax_jwsai_test_telegram', array( $this, 'ajax_test_telegram' ) );
 
 		// Proteksi login
-		add_action( 'wp_login_failed', array( $this, 'handle_login_failure' ) );
-		add_filter( 'authenticate', array( $this, 'check_login_lockout' ), 30, 3 );
+		// add_action( 'wp_login_failed', array( $this, 'handle_login_failure' ) );
+		// add_filter( 'authenticate', array( $this, 'check_login_lockout' ), 30, 3 );
 
 		// Firewall IP - prioritas tinggi untuk mengecek sebelum WordPress load
-		add_action( 'plugins_loaded', array( $this, 'check_firewall_ip' ), 1 );
+		// add_action( 'plugins_loaded', array( $this, 'check_firewall_ip' ), 1 );
 
 		// File integrity check - jalankan setiap jam
-		add_action( 'init', array( $this, 'schedule_file_check' ) );
-		add_action( 'jwsai_hourly_file_check', array( $this, 'run_file_integrity_check' ) );
+		// add_action( 'init', array( $this, 'schedule_file_check' ) );
+		// add_action( 'jwsai_hourly_file_check', array( $this, 'run_file_integrity_check' ) );
 
 		// Malware signature scan
-		add_action( 'init', array( $this, 'schedule_signature_scan' ) );
-		add_action( 'jwsai_daily_signature_scan', array( $this, 'run_signature_scan' ) );
+		// add_action( 'init', array( $this, 'schedule_signature_scan' ) );
+		// add_action( 'jwsai_daily_signature_scan', array( $this, 'run_signature_scan' ) );
 
 		// Load helper classes
 		require_once JWSAI_PLUGIN_DIR . 'includes/class-gemini-api.php';

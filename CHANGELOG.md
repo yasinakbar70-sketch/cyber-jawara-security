@@ -4,6 +4,11 @@ Semua perubahan notable pada plugin Cyber Jawara Security akan didokumentasikan 
 
 Format yang digunakan mengikuti [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.1.10] - 2025-12-09
+
+### Emergency
+- **Safe Mode**: Menonaktifkan sementara semua hook keamanan otomatis (Firewall, Scan, dll) untuk memastikan plugin dapat diaktifkan tanpa masalah fatal error atau timeout.
+
 ## [2.1.9] - 2025-12-09
 
 ### Critical Fix
