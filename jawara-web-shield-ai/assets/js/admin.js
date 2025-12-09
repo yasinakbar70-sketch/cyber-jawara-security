@@ -96,7 +96,7 @@
         // Add to blacklist
         $('#jwsai-add-blacklist').on('click', function (e) {
             e.preventDefault();
-            var ip = $('#jwsai-blacklist-ip').val().trim();
+            var ip = $('#jwsai-blacklist-input').val().trim();
 
             if (!ip) {
                 alert('Please enter an IP address');
@@ -114,7 +114,7 @@
         // Add to whitelist
         $('#jwsai-add-whitelist').on('click', function (e) {
             e.preventDefault();
-            var ip = $('#jwsai-whitelist-ip').val().trim();
+            var ip = $('#jwsai-whitelist-input').val().trim();
 
             if (!ip) {
                 alert('Please enter an IP address');
@@ -193,8 +193,8 @@
             var token = $('#jwsai_telegram_token').val().trim();
             var chatId = $('#jwsai_telegram_chat_id').val().trim();
 
-            if (!token || !chatId) {
-                alert('Please enter Telegram Bot Token and Chat ID first.');
+            if (!chatId) {
+                alert('Please enter your Telegram Chat ID.');
                 $button.prop('disabled', false);
                 $result.html('');
                 return;
