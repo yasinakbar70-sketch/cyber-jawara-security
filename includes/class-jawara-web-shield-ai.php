@@ -90,8 +90,7 @@ class Jawara_Web_Shield_AI {
 		require_once JWSAI_PLUGIN_DIR . 'includes/class-advanced-login-protector.php';
 		require_once JWSAI_PLUGIN_DIR . 'includes/class-security-dashboard.php';
 		require_once JWSAI_PLUGIN_DIR . 'includes/class-traffic-logger.php';
-		require_once JWSAI_PLUGIN_DIR . 'includes/class-database-scanner.php';
-		require_once JWSAI_PLUGIN_DIR . 'includes/class-vulnerability-scanner.php';
+
 		require_once JWSAI_PLUGIN_DIR . 'includes/class-security-hardening.php';
 
         // Admin notice

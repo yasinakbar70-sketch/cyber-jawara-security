@@ -4,6 +4,12 @@ Semua perubahan notable pada plugin Cyber Jawara Security akan didokumentasikan 
 
 Format yang digunakan mengikuti [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.1.6] - 2025-12-09
+
+### Removed
+- **Cleanup**: Menghapus kode scanner lama (Database Scanner & Vulnerability Scanner) yang belum digunakan.
+- **Cleanup**: Menghapus file ZIP debug dan membersihkan struktur direktori.
+
 ## [2.1.5] - 2025-12-09
 
 ### Stable
