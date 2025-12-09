@@ -4,6 +4,11 @@ Semua perubahan notable pada plugin Cyber Jawara Security akan didokumentasikan 
 
 Format yang digunakan mengikuti [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.1.8] - 2025-12-09
+
+### Fixed
+- **Installation**: Repackaging final untuk memastikan kompatibilitas folder instalasi WordPress dan mencegah konflik.
+
 ## [2.1.7] - 2025-12-09
 
 ### Fixed
