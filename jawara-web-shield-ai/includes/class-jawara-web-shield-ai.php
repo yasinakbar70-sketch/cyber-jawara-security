@@ -197,6 +197,9 @@ class Jawara_Web_Shield_AI {
 		// Create threat intelligence table
 		Jawara_Threat_Intelligence::create_table();
 
+		// Create traffic log table
+		Jawara_Traffic_Logger::create_table();
+
 		// Schedule cron jobs
 		if ( ! wp_next_scheduled( 'jwsai_hourly_file_check' ) ) {
 			wp_schedule_event( time(), 'hourly', 'jwsai_hourly_file_check' );

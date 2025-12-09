@@ -22,22 +22,22 @@
      * Initialize manual scan functionality
      */
     function initManualScan() {
-        $('#jwsai-start-scan').on('click', function (e) {
+        $('#jwsai-scan-button').on('click', function (e) {
             e.preventDefault();
 
             var $button = $(this);
-            var $progress = $('.jwsai-scan-progress');
-            var $progressFill = $('.jwsai-progress-fill');
-            var $status = $('.jwsai-scan-status');
+            var $progress = $('#jwsai-scan-progress');
+            var $progressFill = $('#jwsai-progress-bar');
+            var $results = $('#jwsai-scan-results');
 
             // Disable button
             $button.prop('disabled', true);
-            $button.text(jwsaiL10n.scanning);
+            $button.find('span:last').text(jwsaiL10n.scanning);
 
             // Show progress bar
-            $progress.addClass('active');
-            $progressFill.css('width', '0%').text('0%');
-            $status.text('Initializing scan...');
+            $progress.show();
+            $progressFill.css('width', '0%');
+            $results.html('<p>Initializing scan...</p>');
 
             // Simulate progress (in real scenario, you'd get this from server)
             var progress = 0;
@@ -58,31 +58,24 @@
                 },
                 success: function (response) {
                     clearInterval(progressInterval);
-                    $progressFill.css('width', '100%').text('100%');
+                    $progressFill.css('width', '100%');
 
                     if (response.success) {
-                        $status.html('<span class="text-success">✓ ' + jwsaiL10n.scanComplete + '</span>');
-
-                        // Show results
-                        if (response.data.scanned) {
-                            setTimeout(function () {
-                                alert('Scan complete!\\nFiles scanned: ' + response.data.scanned);
-                                location.reload();
-                            }, 1000);
-                        }
+                        $results.html('<p class="text-success"><strong>✓ ' + jwsaiL10n.scanComplete + '</strong></p>' +
+                            '<p>Files scanned: ' + response.data.scanned + '</p>');
                     } else {
-                        $status.html('<span class="text-danger">✗ Error: ' + response.data + '</span>');
+                        $results.html('<p class="text-danger"><strong>✗ Error:</strong> ' + response.data + '</p>');
                     }
                 },
                 error: function (xhr, status, error) {
                     clearInterval(progressInterval);
-                    $status.html('<span class="text-danger">✗ AJAX Error: ' + error + '</span>');
+                    $results.html('<p class="text-danger"><strong>✗ AJAX Error:</strong> ' + error + '</p>');
                 },
                 complete: function () {
                     // Re-enable button
                     setTimeout(function () {
                         $button.prop('disabled', false);
-                        $button.text('Start Manual Scan');
+                        $button.find('span:last').text('Start Manual Scan');
                     }, 2000);
                 }
             });
