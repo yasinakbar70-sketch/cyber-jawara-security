@@ -4,6 +4,11 @@ Semua perubahan notable pada plugin Cyber Jawara Security akan didokumentasikan 
 
 Format yang digunakan mengikuti [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.1.7] - 2025-12-09
+
+### Fixed
+- **Recovery**: Mengembalikan class scanner (sebagai stub) untuk mencegah fatal error PHP saat aktivasi karena file hilang.
+
 ## [2.1.6] - 2025-12-09
 
 ### Removed
