@@ -509,6 +509,11 @@ class Jawara_Web_Shield_AI {
 	 * Check firewall IP
 	 */
 	public function check_firewall_ip() {
+		// Bypass admin area to prevent lockout
+		if ( is_admin() ) {
+			return;
+		}
+
 		$client_ip = $this->get_client_ip();
 		$whitelist = get_option( 'jwsai_whitelist_ips', array() );
 		$blacklist = get_option( 'jwsai_blacklist_ips', array() );

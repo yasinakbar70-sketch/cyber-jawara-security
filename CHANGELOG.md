@@ -4,6 +4,11 @@ Semua perubahan notable pada plugin Cyber Jawara Security akan didokumentasikan 
 
 Format yang digunakan mengikuti [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.1.9] - 2025-12-09
+
+### Critical Fix
+- **Activation**: Mencegah firewall memblokir proses aktivasi plugin sendiri dengan menambahkan pengecekan admin (bypass) di hook 'plugins_loaded'.
+
 ## [2.1.8] - 2025-12-09
 
 ### Fixed
