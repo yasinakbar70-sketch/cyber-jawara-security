@@ -4,6 +4,16 @@ Semua perubahan notable pada plugin Cyber Jawara Security akan didokumentasikan 
 
 Format yang digunakan mengikuti [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.1.5] - 2025-12-09
+
+### Stable
+- **Final Release**: Update rilis final v2.1.5 yang sudah diuji, bebas debug code, dan menyertakan perbaikan struktur repository dan keamanan AJAX.
+
+## [2.1.4] - 2025-12-09
+
+### Added
+- **Debug Features**: Menambahkan output diagnostik untuk troubleshooting masalah auto-update.
+
 ## [2.1.3] - 2025-12-09
 
 ### Fixed
