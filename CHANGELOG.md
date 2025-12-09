@@ -4,6 +4,12 @@ Semua perubahan notable pada plugin Cyber Jawara Security akan didokumentasikan 
 
 Format yang digunakan mengikuti [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.1.3] - 2025-12-09
+
+### Fixed
+- **Stability**: Memperbaiki masalah "Forbidden" saat tes Telegram dan Scan dengan menangani kedaluwarsa Nonce secara lebih baik (memberi pesan "Please refresh" alih-alih error server).
+- **Security**: Memperkuat validasi request AJAX pada semua fitur.
+
 ## [2.1.2] - 2025-12-09
 
 ### Changed

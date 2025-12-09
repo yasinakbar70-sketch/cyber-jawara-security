@@ -250,7 +250,9 @@ class Jawara_Two_Factor_Auth {
 	 * AJAX: Setup 2FA
 	 */
 	public static function ajax_setup_2fa() {
-		check_ajax_referer( 'jwsai_nonce' );
+		if ( ! check_ajax_referer( 'jwsai_nonce', false, false ) ) {
+			wp_send_json_error( 'Session expired. Please refresh the page.' );
+		}
 		
 		if ( ! current_user_can( 'read' ) ) {
 			wp_send_json_error( 'Unauthorized' );
@@ -273,7 +275,9 @@ class Jawara_Two_Factor_Auth {
 	 * AJAX: Verify Setup
 	 */
 	public static function ajax_verify_2fa_setup() {
-		check_ajax_referer( 'jwsai_nonce' );
+		if ( ! check_ajax_referer( 'jwsai_nonce', false, false ) ) {
+			wp_send_json_error( 'Session expired. Please refresh the page.' );
+		}
 		
 		$code = isset( $_POST['code'] ) ? sanitize_text_field( $_POST['code'] ) : '';
 		$user_id = get_current_user_id();
@@ -308,7 +312,9 @@ class Jawara_Two_Factor_Auth {
 	 * AJAX: Disable 2FA
 	 */
 	public static function ajax_disable_2fa() {
-		check_ajax_referer( 'jwsai_nonce' );
+		if ( ! check_ajax_referer( 'jwsai_nonce', false, false ) ) {
+			wp_send_json_error( 'Session expired. Please refresh the page.' );
+		}
 		
 		$user_id = get_current_user_id();
 		delete_user_meta( $user_id, 'jwsai_2fa_secret' );
@@ -323,7 +329,9 @@ class Jawara_Two_Factor_Auth {
 	 * AJAX: Get Backup Codes
 	 */
 	public static function ajax_get_backup_codes() {
-		check_ajax_referer( 'jwsai_nonce' );
+		if ( ! check_ajax_referer( 'jwsai_nonce', false, false ) ) {
+			wp_send_json_error( 'Session expired. Please refresh the page.' );
+		}
 		
 		$user_id = get_current_user_id();
 		$codes = get_user_meta( $user_id, 'jwsai_2fa_backup_codes', true );

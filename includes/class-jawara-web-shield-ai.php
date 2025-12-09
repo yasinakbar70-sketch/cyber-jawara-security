@@ -112,7 +112,9 @@ class Jawara_Web_Shield_AI {
      * AJAX: Tes koneksi Telegram
      */
     public function ajax_test_telegram() {
-        check_ajax_referer( 'jwsai_nonce' );
+        if ( ! check_ajax_referer( 'jwsai_nonce', false, false ) ) {
+			wp_send_json_error( __( 'Session expired (Invalid Nonce). Please refresh the page.', 'jawara-web-shield-ai' ) );
+		}
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( __( 'Unauthorized', 'jawara-web-shield-ai' ) );
         }
@@ -346,7 +348,9 @@ class Jawara_Web_Shield_AI {
 	 * AJAX: Scan manual
 	 */
 	public function ajax_scan_manual() {
-		check_ajax_referer( 'jwsai_nonce' );
+		if ( ! check_ajax_referer( 'jwsai_nonce', false, false ) ) {
+			wp_send_json_error( __( 'Session expired. Please refresh the page.', 'jawara-web-shield-ai' ) );
+		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( __( 'Unauthorized', 'jawara-web-shield-ai' ) );
@@ -362,7 +366,9 @@ class Jawara_Web_Shield_AI {
 	 * AJAX: Tambah IP blacklist
 	 */
 	public function ajax_add_blacklist_ip() {
-		check_ajax_referer( 'jwsai_nonce' );
+		if ( ! check_ajax_referer( 'jwsai_nonce', false, false ) ) {
+			wp_send_json_error( __( 'Session expired. Please refresh the page.', 'jawara-web-shield-ai' ) );
+		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( __( 'Unauthorized', 'jawara-web-shield-ai' ) );
@@ -391,7 +397,9 @@ class Jawara_Web_Shield_AI {
 	 * AJAX: Hapus IP blacklist
 	 */
 	public function ajax_remove_blacklist_ip() {
-		check_ajax_referer( 'jwsai_nonce' );
+		if ( ! check_ajax_referer( 'jwsai_nonce', false, false ) ) {
+			wp_send_json_error( __( 'Session expired. Please refresh the page.', 'jawara-web-shield-ai' ) );
+		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( __( 'Unauthorized', 'jawara-web-shield-ai' ) );
@@ -416,7 +424,9 @@ class Jawara_Web_Shield_AI {
 	 * AJAX: Tambah IP whitelist
 	 */
 	public function ajax_add_whitelist_ip() {
-		check_ajax_referer( 'jwsai_nonce' );
+		if ( ! check_ajax_referer( 'jwsai_nonce', false, false ) ) {
+			wp_send_json_error( __( 'Session expired. Please refresh the page.', 'jawara-web-shield-ai' ) );
+		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( __( 'Unauthorized', 'jawara-web-shield-ai' ) );
@@ -445,7 +455,9 @@ class Jawara_Web_Shield_AI {
 	 * AJAX: Hapus IP whitelist
 	 */
 	public function ajax_remove_whitelist_ip() {
-		check_ajax_referer( 'jwsai_nonce' );
+		if ( ! check_ajax_referer( 'jwsai_nonce', false, false ) ) {
+			wp_send_json_error( __( 'Session expired. Please refresh the page.', 'jawara-web-shield-ai' ) );
+		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( __( 'Unauthorized', 'jawara-web-shield-ai' ) );
